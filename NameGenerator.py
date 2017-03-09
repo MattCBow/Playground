@@ -1,0 +1,76 @@
+"""----------------------------------------------
+-----------------Matt Bowyer---------------------
+----------------------------------------------"""
+
+
+first_names = [
+        'Emma', 'Noah', 'Olivia', 'Liam', 'Sophia', 'Mason', 'Ava	Jacob',
+        'Isabella', 'William', 'Mia', 'Ethan', 'Abigail', 'James', 'Emily',
+        'Alexander', 'Charlotte', 'Michael', 'Harper', 'Benjamin', 'Madison',
+        'Elijah', 'Amelia', 'Daniel', 'Elizabeth', 'Aiden', 'Sofia', 'Logan',
+        'Evelyn', 'Matthew', 'Avery', 'Lucas', 'Chloe', 'Jackson', 'Ella',
+        'David', 'Grace', 'Oliver', 'Victoria', 'Jayden', 'Aubrey', 'Joseph',
+        'Scarlett', 'Gabriel', 'Zoey', 'Samuel', 'Addison', 'Carter', 'Lily',
+        'Anthony', 'Lillian', 'John', 'Natalie', 'Dylan', 'Hannah', 'Luke',
+        'Aria', 'Henry', 'Layla', 'Andrew', 'Brooklyn', 'Isaac', 'Alexa',
+        'Christopher', 'Zoe', 'Joshua', 'Penelope', 'Wyatt', 'Riley',
+        'Sebastian', 'Leah', 'Owen', 'Audrey', 'Caleb', 'Savannah', 'Nathan',
+        'Allison', 'Ryan', 'Samantha', 'Jack', 'Nora', 'Hunter', 'Skylar',
+        'Levi', 'Camila', 'Christian', 'Anna', 'Jaxon', 'Paisley', 'Julian',
+        'Ariana', 'Landon', 'Ellie', 'Grayson', 'Aaliyah', 'Jonathan', 'Claire',
+        'Isaiah', 'Violet', 'Charles'
+    ]
+    last_names = [
+        'Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller',
+        'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White',
+        'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson',
+        'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen',
+        'Young', 'Hernandez', 'King', 'Wright', 'Lopez', 'Hill', 'Scott',
+        'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell',
+        'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans',
+        'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed',
+        'Cook', 'Morgan', 'Bell', 'Murphy', 'Bailey', 'Rivera', 'Cooper',
+        'Richardson', 'Cox', 'Howard', 'Ward', 'Torres', 'Peterson', 'Gray',
+        'Ramirez', 'James', 'Watson', 'Brooks', 'Kelly', 'Sanders', 'Price',
+        'Bennett', 'Wood', 'Barnes', 'Ross', 'Henderson', 'Coleman', 'Jenkins',
+        'Perry', 'Powell', 'Long', 'Patterson', 'Hughes', 'Flores',
+        'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant',
+        'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes'
+    ]
+    team_names = [
+        'The Easy Raccoons', 'The Unwieldy Rhinoceroses', 'The Near Humans',
+        'The Uppity Cobras', 'The Black Eels', 'The Necessary Lyrebirds',
+        'The Piquant Ravens', 'The Ripe Jackals', 'The Wandering Echidnas',
+        'The Stereotyped Coyotes', 'The Soft Llamas', 'The Abrupt Lemurs',
+        'The Womanly Toads', 'The Minor Butterflys', 'The Grateful Cats',
+        'The Stale Falcons', 'The Thundering Snakes', 'The Right Rams',
+        'The Petite Pelicans', 'The Spotty Armadillos', 'The Ubiquitous Pandas',
+        'The Bustling Lions', 'The Wry Dogs', 'The Squealing Cranes',
+        'The Adhesive Mallards', 'The Hissing Peafowls', 'The Sloppy Mosquitos',
+        'The Hanging Otters', 'The Fumbling Goats', 'The Brief Weasels',
+        'The Lean Aardvarks', 'The Giant Jaguars', 'The Capricious Swans',
+        'The Unique Yaks', 'The Obeisant Beavers', 'The Vacuous Badgers',
+        'The Aloof Dragons', 'The Precious Giraffes', 'The Defective Gerbils',
+        'The Vast Gorillas', 'The Ahead Herons', 'The Resonant Barracudas',
+        'The Three Cows', 'The Tan Gulls', 'The Teeny-tiny Bees',
+        'The Resolute Mice', 'The Vengeful Reindeers', 'The Spotless Hawks',
+        'The Good Mooses', 'The Childlike Elks', 'The Null Frogs',
+        'The Lazy Larks', 'The Animated Apes', 'The Ethereal Seals',
+        'The Regular Worms', 'The Dizzy Guineapigs', 'The Medical Panthers',
+        'The Disagreeable Hippopotamuss', 'The Stupendous Porcupines',
+        'The New Hedgehogs', 'The Purring Crabs', 'The Greasy Bears',
+        'The Delirious Moles', 'The Guttural Salamanders', 'The Whole Donkeys',
+        'The Scarce Buffalos', 'The Known Elephants', 'The Foamy Squirrels',
+        'The Long-term Shrews', 'The Calm Gazelles', 'The Enchanted Antelopes',
+        'The Wretched Wolves', 'The Tearful Turtles', 'The Observant Chimpanzees',
+        'The Grieving Koalas', 'The Homely Sheep', 'The Plain Eagles',
+        'The Brash Dogfishes', 'The Annoyed Hamsters', 'The Demonic Turkeys',
+        'The Abnormal Stinkbugs', 'The Nutty Louses', 'The Complex Monkeys',
+        'The Faulty Flys', 'The Fanatical Lobsters', 'The Odd Mules',
+        'The Organic Jellyfishes', 'The Quarrelsome Walruses',
+        'The Zealous Magpies', 'The Ruddy Penguins', 'The Glistening Whales',
+        'The Hungry Anteaters', 'The Cloudy Boars', 'The Mighty Finches',
+        'The Selfish Dragonflys', 'The Jazzy Pigeons', 'The Absurd Deers',
+        'The Worried Leopards', 'The Gifted Antelopes', 'The Standing Wolves',
+        'The Outgoing Turtles'
+    ]
