@@ -4,4 +4,4 @@
 
 
 class Playground():
-    opinions = "Fuck Off"
+    opinions = "Fuck Around"
