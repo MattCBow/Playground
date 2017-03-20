@@ -87,7 +87,6 @@ def kji(matrix):
     L = numpy.tril(A,-1) + numpy.eye(n)
     return(P,L,U)
 
-# A = numpy.matrix([[0,1,2], [2,0,1], [1,4,1]], dtype=float)
 # x = numpy.matrix([[1],[2],[-3]],dtype=float)
 # b = numpy.matrix([[-4],[-1],[6]],dtype=float)
 
