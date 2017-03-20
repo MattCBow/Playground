@@ -43,13 +43,11 @@ def kij(matrix):
 def kji(matrix):
     A = numpy.copy(matrix)
     (m,n) = A.shape
-    piv = range(n)
-    permutations = 0
+    P = numpy.eye(n)
     for k in range(n-1):
         m = k + numpy.argmax(abs(A[k:n,k]))     #GET MAX ROW
-        piv[k], piv[m] = piv[m], piv[k]         #SAVE SWAP in PIV
-        A[[k,m]] = A[[m,k]]                     #SWAP ROWS
-        print k,'\t',m,'\n',A
+        P[:,[k,m]] = P[:,[m,k]]                 #SWAP COLS in P
+        A[[k,m]] = A[[m,k]]                     #SWAP ROWS in A
         for i in range(k+1,n):
             A[i,k] = A[i,k]/A[k,k]
         for j in range(k+1,n):
@@ -57,5 +55,4 @@ def kji(matrix):
                 A[i,j] = A[i,j]-A[i,k]*A[k,j]
     U = A-numpy.tril(A,-1)
     L = numpy.tril(A,-1) + numpy.eye(n)
-    P = numpy.eye(n)[:,piv]
     return(P,L,U)
