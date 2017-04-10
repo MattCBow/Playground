@@ -5,6 +5,137 @@
 import math
 import sympy
 import numpy
+import scipy
+
+
+x = sympy.symbols('x')
+trial_1 = {
+    'f': sympy.cos(sub_x),
+    'a': -4,
+    'b': 4
+}
+trial_2 = {
+    'f': 1.0 / (1+10*sub**2),
+    'a': -math.pi,
+    'b': math.pi
+}
+def runge(sub_x, func, a, b, n):
+    steps = range(n)
+    x_norm = [a+(i+1.0)*(b-a)/n for i in steps]
+    y_norm = [func.subs(sub_x,x) for x in x_norm]
+    p_norm = numpy.polyval(numpy.polyfit(x_norm, y_norm, n-1), x_norm)
+    x_cheb = [((b-a)/2)*math.cos(math.pi*(2*i+1)/(2*n+2))+((a+b)/2) for i in steps][::-1]
+    y_cheb = [func.subs(sub_x,x) for x in x_cheb]
+    p_cheb = numpy.polyval(numpy.polyfit(x_cheb, y_cheb, n-1), x_cheb)
+    return(x_norm, y_norm, p_norm, x_cheb, y_cheb, p_cheb)
+
+(x_norm, y_norm, p_norm, x_cheb, y_cheb, p_cheb) = runge(sub_x, trial_1['f'], trial_1['a'], trial_1['b'], 30)
+(trial_1['x_n'], trial_1['y_n'], trial_1['p_n'], trial_1['x_c'], trial_1['y_c'], trial_1['p_c']) = runge(sub_x, trial_1['f'], trial_1['a'], trial_1['b'], 5)
+(trial_2['x_n'], trial_2['y_n'], trial_2['p_n'], trial_2['x_c'], trial_2['y_c'], trial_2['p_c']) = runge(sub_x, trial_2['f'], trial_2['a'], trial_2['b'], 5)
+
+dif = max([abs(y_norm[i]-p_norm[i]) for i in range(len(x_norm))])
+dif = max([abs(y_cheb[i]-p_cheb[i]) for i in range(len(x_cheb))])
+
+
+plt.plot(x_norm, y_norm, 'r^', x_norm, p_norm, 'bs' )
+plt.show()
+
+plt.plot(x_2_norm, y_2_norm, 'r^', x_2_cheb, y_2_cheb, 'bs' )
+plt.show()
+
+plt.plot(x_1_norm, y_1_norm, 'r^', x_1_cheb, y_1_cheb, 'bs' )
+plt.show()
+
+plt.plot(steps, x_2_norm,'r^', steps, x_2_cheb, 'bs')
+plt.show()
+
+
+plt.plot(x_norm, x_norm,'r-', steps, x_cheb, 'b-')
+
+
+
+
+
+# Make matrices print fractions
+# import fractions
+# import numpy
+# numpy.set_printoptions(formatter={'all':lambda x: str(fractions.Fraction(x).limit_denominator())})
+# numpy.set_printoptions(formatter={'all':lambda x: str(("%.4f" % round(x,4)))})
+# numpy.set_printoptions(formatter={'all':lambda x: str(x)})
+
+out = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
+
+def seidel(itr, A, b, x):
+    X = [numpy.matrix([[0.0] for i in range(len(b))]) for k in range(itr+1)]
+    E = [numpy.amax(abs(x)) for i in range(itr+1)]
+    R = [0.0 for i in range(itr+1)]
+    for k in range(itr):
+        for i in range(len(b)):
+            left = sum([ (A[i,n] * X[k+1][n]) for n in range(0,i)])
+            right = sum([ (A[i,n] * X[k][n]) for n in range(i+1,len(b))])
+            X[k+1][i,0] = 1.0 * (b[i,0] - left - right) / A[i,i]
+            E[k+1] = numpy.amax(abs(X[k+1] - x))
+            R[k+1] = E[k+1]/ E[k]
+    T = numpy.matrix([X[i].ravel().tolist()[0] + [E[i]] + [R[i]] for i in range(len(X))])
+    trials = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
+    return (X,E,R,T)
+
+def jacobi(itr, A, b, x):
+X = [numpy.matrix([[0.0] for i in range(len(b))]) for k in range(itr+1)]
+E = [numpy.amax(abs(x)) for i in range(itr+1)]
+R = [0.0 for i in range(itr+1)]
+D = numpy.tril(A) - numpy.tril(A,-1)
+I = numpy.linalg.inv(D)
+C = I.dot(b)
+F = I.dot(A - D)
+for k in range(itr):
+    X[k+1] = C - F.dot(X[k])
+    E[k+1] = numpy.amax(abs(X[k+1] - x))
+    R[k+1] = E[k+1]/ E[k]
+T = numpy.matrix([X[i].ravel().tolist()[0] + [E[i]] + [R[i]] for i in range(len(X))])
+trials = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
+return (X,E,R,T)
+
+
+# A = numpy.matrix('9 1 1 1; 1 8 1 1; 1 1 7 1; 1 1 1 6')
+# b = numpy.matrix('75; 54; 43; 34')
+
+
+# A = numpy.matrix([[1.0/2, -1.0/4], [-1.0/4, 1.0/2]])
+# b = numpy.matrix([[3], [-3]])
+# x = numpy.matrix([[4], [-4]])
+
+
+# A = numpy.matrix([[9,1,1], [2,10,3], [3,4,11]])
+# b = numpy.matrix([[10], [19], [0]])
+# x = numpy.matrix([[1], [2], [-1]])
+
+# A = numpy.matrix('4 -1 0 -1 0 0 0 0 0; -1 4 -1 0 -1 0 0 0 0; 0 -1 4 0 0 -1 0 0 0;  -1 0 0 4 -1 0 -1 0 0;  0 -1 0 -1 4 -1 0 -1 0;  0 0 -1 0 -1 4 0 0 -1;  0 0 0 -1 0 0 4 -1 0;  0 0 0 0 -1 0 -1 4 -1;  0 0 0 0 0 -1 0 -1 4')
+# b = numpy.matrix('4; -1; -5; -2; 2; 2; -1; 1; 6')
+# x = numpy.matrix('1; 0; -1; 0; 1; 1; 0; 1; 2')
+
+𝐴𝑥 = 𝑏
+==> [𝐷 + (𝐴 − 𝐷)]𝑥 = 𝑏
+==> 𝐷𝑥 = 𝑏 − (𝐴 − 𝐷)𝑥
+==> 𝑥 = 𝐷^(−1)𝑏 − 𝐷^(−1)(𝐴 − 𝐷)𝑥
+so we can derive an iterative method:
+𝑥^(𝑘+1) = 𝐷^(−1)𝑏 − 𝐷^(−1)(𝐴 − 𝐷)𝑥[𝑘]
+
+Write a matlab program that implements this method using
+Matlab matrix definitions e.g.
+𝐷 = 𝑡𝑟𝑖𝑙(𝐴) − 𝑡𝑟𝑖𝑙(𝐴, −1);
+𝑥(𝑘 + 1) = 𝑖𝑛𝑣(𝐷) ∗ (𝑏 − (𝐴 − 𝐷) ∗ 𝑥(𝑘)),
+you can use as stopping criterion
+𝑛𝑜𝑟𝑚(𝑥(𝑘 + 1) − 𝑥(𝑘), 𝛾),
+𝛾 = 2, 𝑜𝑟
+𝛾 = 1, 𝑜𝑟
+𝛾 = 𝑖𝑛𝑓
+for the 3 norms that we learned in class,
+the 2 norm or
+the 1 norm or
+the infinity or
+maximum norm
+
 
 #a = 0
 #n = 5
