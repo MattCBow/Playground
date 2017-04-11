@@ -6,55 +6,89 @@ import math
 import sympy
 import numpy
 import scipy
+import matplotlib.pyplot as plt
 
+n = 2
+sub_x = sympy.symbols('x')
+a = -4
+b = 4
+steps = range(n)
+func = sympy.cos(sub_x)
+steps = range(n)
 
-x = sympy.symbols('x')
-trial_1 = {
-    'f': sympy.cos(sub_x),
-    'a': -4,
-    'b': 4
-}
-trial_2 = {
-    'f': 1.0 / (1+10*sub**2),
-    'a': -math.pi,
-    'b': math.pi
-}
-def runge(sub_x, func, a, b, n):
-    steps = range(n)
-    x_norm = [a+(i+1.0)*(b-a)/n for i in steps]
-    y_norm = [func.subs(sub_x,x) for x in x_norm]
-    p_norm = numpy.polyval(numpy.polyfit(x_norm, y_norm, n-1), x_norm)
-    x_cheb = [((b-a)/2)*math.cos(math.pi*(2*i+1)/(2*n+2))+((a+b)/2) for i in steps][::-1]
-    y_cheb = [func.subs(sub_x,x) for x in x_cheb]
-    p_cheb = numpy.polyval(numpy.polyfit(x_cheb, y_cheb, n-1), x_cheb)
-    return(x_norm, y_norm, p_norm, x_cheb, y_cheb, p_cheb)
+x_norm = [a+(i+1.0)*(b-a)/n for i in steps]
+y_norm = [func.subs(sub_x,x) for x in x_norm]
+p_norm = numpy.polyval(numpy.polyfit(x_norm, y_norm, n-1), x_norm)
+e_norm = [y_norm[i]-p_norm[i] for i in steps]
 
-(x_norm, y_norm, p_norm, x_cheb, y_cheb, p_cheb) = runge(sub_x, trial_1['f'], trial_1['a'], trial_1['b'], 30)
-(trial_1['x_n'], trial_1['y_n'], trial_1['p_n'], trial_1['x_c'], trial_1['y_c'], trial_1['p_c']) = runge(sub_x, trial_1['f'], trial_1['a'], trial_1['b'], 5)
-(trial_2['x_n'], trial_2['y_n'], trial_2['p_n'], trial_2['x_c'], trial_2['y_c'], trial_2['p_c']) = runge(sub_x, trial_2['f'], trial_2['a'], trial_2['b'], 5)
+x_cheb = [((b-a)/2)*math.cos(math.pi*(2*i+1)/(2*n+2))+((a+b)/2) for i in steps][::-1]
+y_cheb = [func.subs(sub_x,x) for x in x_cheb]
+p_cheb = numpy.polyval(numpy.polyfit(x_cheb, y_cheb, n-1), x_cheb)
+e_cheb = [y_cheb[i]-p_cheb[i] for i in steps]
 
-dif = max([abs(y_norm[i]-p_norm[i]) for i in range(len(x_norm))])
-dif = max([abs(y_cheb[i]-p_cheb[i]) for i in range(len(x_cheb))])
+sub_x = sympy.symbols('x')
+n = 15
+a = -4
+b = 4
+steps = range(n)
+func = 1.0/(1+10*sub_x**2)
+steps = range(n)
 
+x_norm = [a+(i+1.0)*(b-a)/n for i in steps]
+y_norm = [func.subs(sub_x,x) for x in x_norm]
+p_norm = numpy.polyval(numpy.polyfit(x_norm, y_norm, n-1), x_norm)
+e_norm = [y_norm[i]-p_norm[i] for i in steps]
 
-plt.plot(x_norm, y_norm, 'r^', x_norm, p_norm, 'bs' )
+x_cheb = [((b-a)/2)*math.cos(math.pi*(2*i+1)/(2*n+2))+((a+b)/2) for i in steps][::-1]
+y_cheb = [func.subs(sub_x,x) for x in x_cheb]
+p_cheb = numpy.polyval(numpy.polyfit(x_cheb, y_cheb, n-1), x_cheb)
+e_cheb = [y_cheb[i]-p_cheb[i] for i in steps]
+
+plt.plot(x_norm, y_norm, 'g-', label = 'Function 1')
+plt.plot(x_norm, p_norm, 'bo', label = 'Interpolation 2')
+plt.plot(x_norm, e_norm, 'r^', label = 'Error 3' )
+
+plt.plot(x_cheb, y_cheb, 'g-', label = 'Function 1')
+plt.plot(x_cheb, p_cheb, 'bo', label = 'Interpolation 2')
+plt.plot(x_cheb, e_cheb, 'b^', label = 'Error 3' )
 plt.show()
 
-plt.plot(x_2_norm, y_2_norm, 'r^', x_2_cheb, y_2_cheb, 'bs' )
+
+
+
+sub_x = sympy.symbols('x')
+n = 2
+a = -4
+b = 4
+steps = range(n)
+func = sympy.cos(sub_x)
+steps = range(n)
+x_cheb = [((b-a)/2)*math.cos(math.pi*(2*i+1)/(2*n+2))+((a+b)/2) for i in steps][::-1]
+y_cheb = [func.subs(sub_x,x) for x in x_cheb]
+p_cheb = numpy.polyval(numpy.polyfit(x_cheb, y_cheb, n-1), x_cheb)
+e_cheb = [y_cheb[i]-p_cheb[i] for i in steps]
+plt.plot(x_cheb, y_cheb, 'g-', label = 'Function 1')
+plt.plot(x_cheb, p_cheb, 'bo', label = 'Interpolation 2')
+plt.plot(x_cheb, e_cheb, 'r^', label = 'Error 3' )
 plt.show()
 
-plt.plot(x_1_norm, y_1_norm, 'r^', x_1_cheb, y_1_cheb, 'bs' )
+
+
+n = 10
+sub_x = sympy.symbols('x')
+a = -4
+b = 4
+steps = range(n)
+func = 1.0/(1+10*sub_x**2)
+steps = range(n)
+x_norm = [a+(i+1.0)*(b-a)/n for i in steps]
+y_norm = [func.subs(sub_x,x) for x in x_norm]
+p_norm = numpy.polyval(numpy.polyfit(x_norm, y_norm, n-1), x_norm)
+e_norm = [y_norm[i]-p_norm[i] for i in steps]
+plt.plot(x_norm, y_norm, 'g-', label = 'Function 1')
+plt.plot(x_norm, p_norm, 'bo', label = 'Interpolation 2')
+plt.plot(x_norm, e_norm, 'r^', label = 'Error 3' )
 plt.show()
-
-plt.plot(steps, x_2_norm,'r^', steps, x_2_cheb, 'bs')
-plt.show()
-
-
-plt.plot(x_norm, x_norm,'r-', steps, x_cheb, 'b-')
-
-
-
-
 
 # Make matrices print fractions
 # import fractions
@@ -62,6 +96,15 @@ plt.plot(x_norm, x_norm,'r-', steps, x_cheb, 'b-')
 # numpy.set_printoptions(formatter={'all':lambda x: str(fractions.Fraction(x).limit_denominator())})
 # numpy.set_printoptions(formatter={'all':lambda x: str(("%.4f" % round(x,4)))})
 # numpy.set_printoptions(formatter={'all':lambda x: str(x)})
+
+'''
+for t in range(-1,len(T)):
+    if(t==-1):
+        print 'i= \tx[0]= \tx[1]= \tx[2]= \te= \tr='
+    else:
+        print str(t),'\t',T[t]
+
+'''
 
 out = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
 
@@ -81,20 +124,20 @@ def seidel(itr, A, b, x):
     return (X,E,R,T)
 
 def jacobi(itr, A, b, x):
-X = [numpy.matrix([[0.0] for i in range(len(b))]) for k in range(itr+1)]
-E = [numpy.amax(abs(x)) for i in range(itr+1)]
-R = [0.0 for i in range(itr+1)]
-D = numpy.tril(A) - numpy.tril(A,-1)
-I = numpy.linalg.inv(D)
-C = I.dot(b)
-F = I.dot(A - D)
-for k in range(itr):
-    X[k+1] = C - F.dot(X[k])
-    E[k+1] = numpy.amax(abs(X[k+1] - x))
-    R[k+1] = E[k+1]/ E[k]
-T = numpy.matrix([X[i].ravel().tolist()[0] + [E[i]] + [R[i]] for i in range(len(X))])
-trials = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
-return (X,E,R,T)
+    X = [numpy.matrix([[0.0] for i in range(len(b))]) for k in range(itr+1)]
+    E = [numpy.amax(abs(x)) for i in range(itr+1)]
+    R = [0.0 for i in range(itr+1)]
+    D = numpy.tril(A) - numpy.tril(A,-1)
+    I = numpy.linalg.inv(D)
+    C = I.dot(b)
+    F = I.dot(A - D)
+    for k in range(itr):
+        X[k+1] = C - F.dot(X[k])
+        E[k+1] = numpy.amax(abs(X[k+1] - x))
+        R[k+1] = E[k+1]/ E[k]
+    T = numpy.matrix([X[i].ravel().tolist()[0] + [E[i]] + [R[i]] for i in range(len(X))])
+    trials = [[str(("%.4f" % round(T[m,n],4))) for n in range(T.shape[1])] for m in range(T.shape[0])]
+    return (X,E,R,T)
 
 
 # A = numpy.matrix('9 1 1 1; 1 8 1 1; 1 1 7 1; 1 1 1 6')
